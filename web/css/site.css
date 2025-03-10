@@ -1,0 +1,38 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 2, 2025, 2:51:34 PM
+    Author     : Mr. Tuan
+*/
+/*.header {
+    background-color: purple;
+    padding: 20px;
+}
+
+.header .title a {
+    color: yellow !important;
+}*/
+
+.footer{
+    border-top: 1px solid red;
+    margin-top: 5px;
+}
+
+.image {
+    border-radius: 10px
+}
+
+.messenger-logo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.messenger-logo img {
+    width: 70px; 
+    border-radius: 50px;
+}
