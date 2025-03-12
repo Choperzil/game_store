@@ -17,6 +17,7 @@ import java.util.List;
  * @author Mr. Tuan
  */
 public class AccountFacade {
+
     public Account select(String email, String password) throws SQLException {
         Account account = null;
         Connection con = DBContext.getConnection();
@@ -35,5 +36,16 @@ public class AccountFacade {
         }
         con.close();
         return account;
+    }
+
+    public void create(Account account) throws SQLException {
+        Connection con = DBContext.getConnection();
+        PreparedStatement stm = con.prepareStatement("insert Customer ([name], [phone], [email], [password]) values (?, ?, ?, ?)");
+        stm.setString(1, account.getName());
+        stm.setString(2, account.getPhone());
+        stm.setString(3, account.getEmail());
+        stm.setString(4, account.getPassword());
+        stm.executeUpdate();
+        con.close();
     }
 }
