@@ -24,6 +24,15 @@
             <div class="row">
                 <div class="col-sm-12 header" style="background-color: purple; padding: 50px;">
                     <h1 class="title"><a href="<c:url value="/" />" style="text-decoration: none; color: yellow">GameVUI</a></h1>
+                    <p class="float-end">
+                        <c:if test="${account==null}">
+                            <a href="<c:url value="/login.jsp" />" style="color: white">Login</a>
+                        </c:if>
+                        <c:if test="${account!=null}">
+                            <i style="color: white">Welcome ${account.name} |</i>
+                            <a href="<c:url value="/account/logout.do" />" style="color: white">Logout</a>
+                        </c:if>
+                    </p>
                 </div>
             </div>
             <div class="row">
