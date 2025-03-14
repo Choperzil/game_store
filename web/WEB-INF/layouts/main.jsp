@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,15 +24,21 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 header" style="background-color: purple; padding: 50px;">
+                    <%--Header--%>
                     <h1 class="title"><a href="<c:url value="/" />" style="text-decoration: none; color: yellow">GameVUI</a></h1>
                     <p class="float-end">
                         <c:if test="${account==null}">
-                            <a href="<c:url value="/login.jsp" />" style="color: white">Login</a>
+                            <a href="<c:url value="/login.jsp" />" style="color: white">Login |</a>
                         </c:if>
                         <c:if test="${account!=null}">
                             <i style="color: white">Welcome ${account.name} |</i>
-                            <a href="<c:url value="/account/logout.do" />" style="color: white">Logout</a>
+                            <a href="<c:url value="/account/logout.do" />" style="color: white">Logout |</a>
                         </c:if>
+
+                        <a href="<c:url value="/cart/index.do" />" class="btn btn-outline-light text-light btn-sm p-1">
+                            <i class="bi bi-bag-dash"></i>
+                            ${cart.quantity}            
+                        </a>    
                     </p>
                 </div>
             </div>
