@@ -20,7 +20,9 @@
             </c:if>
             <c:if test="${product.discount==0}">
                 <b>Price:</b> $${product.cost}<br/>
-            </c:if>    
+            </c:if> 
+            <br/>    
+            <a href="<c:url value="/cart/add.do?id=${product.id}" />" class="btn btn-primary mt-3 mb-3"><i class="bi bi-cart-plus"></i> Add to Cart</a>    
 
             <!--
             Discount: ${product.discount}<br/>     -->
