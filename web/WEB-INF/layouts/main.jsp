@@ -36,7 +36,7 @@
                         </c:if>
 
                         <a href="<c:url value="/cart/index.do" />" class="btn btn-outline-light text-light btn-sm p-1">
-                            <i class="bi bi-bag-dash"></i>
+                            <i class="bi bi-bag-dash"> Cart</i>
                             ${cart.quantity}            
                         </a>    
                     </p>

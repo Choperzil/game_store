@@ -52,11 +52,16 @@
         <th style="text-align: right">
             <fmt:formatNumber value="${cart.total}" type="currency" />
         </th>
-        <th><a href="<c:url value="/cart/empty.do" />">Empty Cart</a></th>
-    </tr>
+        <th>
+            <form action="<c:url value="/cart/checkout.do" />" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-success"><i class="bi bi-credit-card"></i> Checkout</button>
+            </form>
+        </th>
+    <i style="color: green">${message}</i>
+</tr>
 </table>
 <script>
-    $(".update").click(function(){
+    $(".update").click(function () {
         //lấy id và quantity
         var id = $(this).data("id");
         var quantity = $(this).closest("tr").find("input[name='quantity']").val();

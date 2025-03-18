@@ -6,6 +6,10 @@
 package controllers;
 
 import cart.Cart;
+import cart.Item;
+import db.Account;
+import db.Order;
+import db.OrderFacade;
 import db.Product;
 import db.ProductFacade;
 import java.io.IOException;
@@ -56,6 +60,9 @@ public class CartController extends HttpServlet {
             case "update":
                 update(request, response);
                 break;
+            case "checkout":
+                checkout(request, response);
+                break;
         }
     }
     
@@ -66,17 +73,6 @@ public class CartController extends HttpServlet {
     
     protected void add(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        try {
-//            int id = Integer.parseInt(request.getParameter("id"));
-//            ProductFacade pf = new ProductFacade();
-//            Product product = pf.select(id);
-//            HttpSession session = request.getSession();
-//            Cart cart = (Cart)session.getAttribute("cart");
-//            cart.add(product, 1);
-//            request.getRequestDispatcher("/").forward(request, response);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
           try {
             int id = Integer.parseInt(request.getParameter("id"));
             ProductFacade pf = new ProductFacade();
@@ -125,6 +121,44 @@ public class CartController extends HttpServlet {
         Cart cart = (Cart)session.getAttribute("cart");
         cart.update(id, quantity);
         request.getRequestDispatcher("/cart/index.do").forward(request, response);
+    }
+    
+    protected void checkout(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Cart cart = (Cart)session.getAttribute("cart");
+        Account account = (Account)session.getAttribute("account");
+
+        if (account == null) {
+            request.setAttribute("message", "Please log in to checkout!");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
+
+        if (cart == null || cart.getItems().isEmpty()) {
+            request.setAttribute("message", "Your cart is empty!");
+            request.getRequestDispatcher("/cart/index.do").forward(request, response);
+            return;
+        }
+
+        try {
+            OrderFacade of = new OrderFacade();
+            for (Item item : cart.getItems()) {
+                Order order = new Order();
+                order.setCustomerID(account.getId());
+                order.setProductId(item.getProduct().getId());
+                order.setQuantity(item.getQuantity());
+                order.setOldPrice(item.getProduct().getPrice());
+                order.setNewPrice(item.getProduct().getCost()); // Assuming getCost() returns discounted price
+                order.setTotal(item.getCost());
+                of.insert(account.getId(), order);
+            }
+            cart.empty(); // Clear the cart after successful checkout
+            request.setAttribute("message", "Checkout successful! Thank you for your purchase.");
+            request.getRequestDispatcher("/cart/index.do").forward(request, response);
+        } catch (Exception e) {
+            throw new ServletException("Error during checkout", e);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
