@@ -13,16 +13,15 @@
     <c:forEach var="product" items="${list}">
         <div class="col-sm-4 mt-5">
             <img src="<c:url value="/images/${product.id}.jpg" />" width="100%" class="image">
-<!--            Id: ${product.id}<br/>-->
-            <b>Description:</b> ${product.description}<br/>
+            <b>${product.description}</b><br/>
             <c:if test="${product.discount!=0}">
-                <b>Price:</b> $<span class="text-secondary text-decoration-line-through">${product.price}</span> $${product.cost} <span class="badge bg-danger text-white">-${product.discount * 100}%</span>
+                <span class="text-secondary text-decoration-line-through"><fmt:formatNumber value="${product.cost}" type="currency"/></span> <fmt:formatNumber value="${product.cost}" type="currency"/> <span class="badge bg-danger text-white">-${product.discount * 100}%</span>
             </c:if>
             <c:if test="${product.discount==0}">
-                <b>Price:</b> $${product.cost}<br/>
+                <fmt:formatNumber value="${product.cost}" type="currency"/><br/>
             </c:if> 
             <br/>    
-            <a href="<c:url value="/cart/add.do?id=${product.id}" />" class="btn btn-primary mt-3 mb-3"><i class="bi bi-cart-plus"></i> Add to Cart</a>    
+            <a href="<c:url value="/cart/add.do?id=${product.id}" />" class="btn btn-primary mt-3 mb-3"><i class="bi bi-bag-plus"></i> Add to Cart</a>    
 
             <!--
             Discount: ${product.discount}<br/>     -->
@@ -35,7 +34,9 @@
         <a href="<c:url value="/?page=${page - 1}" />" class="btn btn-primary ${page==1?"disabled":""}" title="Previous"><i class="bi bi-arrow-left-circle-fill"></i></a>
         <a href="<c:url value="/?page=${page + 1}" />" class="btn btn-primary ${page==totalPage?"disabled":""}" title="Next"><i class="bi bi-arrow-right-circle-fill"></i></a>
         <a href="<c:url value="/?page=${totalPage}" />" class="btn btn-primary ${page==totalPage?"disabled":""}" title="End"><i class="bi bi-arrow-right-circle"></i></a>
-        Page: ${page}/${totalPage}
     </div>
+    <div class="d-block w-100 text-center mt-2">
+            Page: ${page}/${totalPage}
+        </div>
 </div>
 
