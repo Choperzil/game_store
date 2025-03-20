@@ -8,8 +8,26 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <!DOCTYPE html>
-<div class="row">
+<form action="<c:url value='/product/index.do' />" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Search for games..." value="${param.search}" />
+        <select name="sortBy" class="form-select">
+            <option value="description ASC" <c:if test="${param.sortBy == 'description ASC'}">selected</c:if>>A to Z</option>
+            <option value="description DESC" <c:if test="${param.sortBy == 'description DESC'}">selected</c:if>>Z to A</option>
+            <option value="price ASC" <c:if test="${param.sortBy == 'price ASC'}">selected</c:if>>Price Low to High</option>
+            <option value="price DESC" <c:if test="${param.sortBy == 'price DESC'}">selected</c:if>>Price High to Low</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+    <div class="row">
+    <c:if test="${empty list}">
+        <div class="alert alert-warning" role="alert">
+            Sorry, no games found 😟!
+        </div>
+    </c:if>
     <c:forEach var="product" items="${list}">
         <div class="col-sm-4 mt-5">
             <img src="<c:url value="/images/${product.id}.jpg" />" width="100%" class="image">
@@ -36,7 +54,7 @@
         <a href="<c:url value="/?page=${totalPage}" />" class="btn btn-primary ${page==totalPage?"disabled":""}" title="End"><i class="bi bi-arrow-right-circle"></i></a>
     </div>
     <div class="d-block w-100 text-center mt-2">
-            Page: ${page}/${totalPage}
-        </div>
+        Page: ${page}/${totalPage}
+    </div>
 </div>
 

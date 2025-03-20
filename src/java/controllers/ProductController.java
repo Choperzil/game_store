@@ -46,32 +46,46 @@ public class ProductController extends HttpServlet {
     }
     
     protected void index(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            int pageSize = 6;
-            HttpSession session = request.getSession();
-            Integer page = (Integer) session.getAttribute("page");
-            if (page == null) {
-                page = 1;
-                session.setAttribute("page", page);
-            }
-            
-            String pages = request.getParameter("page");
-            if (pages != null) {
-                page = Integer.parseInt(pages);
-                session.setAttribute("page", page);
-            }
-            ProductFacade pf = new ProductFacade();
-            List<Product> list = pf.select(pageSize, page);
-            request.setAttribute("list", list);
-            int rowCount = pf.count();
-            int totalPage = (int) Math.ceil(rowCount / pageSize);
-            request.setAttribute("totalPage", totalPage);
-            request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
+        throws ServletException, IOException {
+    try {
+        int pageSize = 6; // Number of products per page
+        HttpSession session = request.getSession();
+        Integer page = (Integer) session.getAttribute("page");
+        if (page == null) {
+            page = 1; // Default to the first page
+            session.setAttribute("page", page);
         }
+
+        String pages = request.getParameter("page");
+        if (pages != null) {
+            page = Integer.parseInt(pages);
+            session.setAttribute("page", page);
+        }
+
+        String searchKeyword = request.getParameter("search");
+        String sortBy = request.getParameter("sortBy");
+
+        ProductFacade pf = new ProductFacade();
+        List<Product> list;
+
+        // Only search if a search keyword is provided
+        if (searchKeyword != null && !searchKeyword.isEmpty()) {
+            list = pf.search(searchKeyword, sortBy); // Search and sort
+        } else {
+            list = pf.select(pageSize, page); // Default selection without sorting
+        }
+
+        request.setAttribute("list", list);
+        int rowCount = pf.count(); // Get the total number of products
+        int totalPage = (int) Math.ceil(rowCount / (double) pageSize); // Calculate total pages
+        request.setAttribute("totalPage", totalPage);
+        request.setAttribute("search", searchKeyword); // Retain the search keyword
+        request.setAttribute("sortBy", sortBy); // Retain the sort option
+        request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
