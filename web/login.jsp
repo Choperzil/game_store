@@ -19,7 +19,7 @@
             Email:<br/>
             <input type="text" name="email" value="${param.email}" /><br/>
             Password:<br/>
-            <input type="text" name="password" value="${param.password}" /><br/>
+            <input type="password" name="password" value="${param.password}" /><br/>
             <button type="submit" name="op" value="login">Login</button>
             <button type="submit" name="op" value="cancel">Cancel</button>
         </form>
