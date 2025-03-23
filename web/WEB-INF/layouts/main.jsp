@@ -21,26 +21,36 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
     <body>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-12 header" style="background-color: purple; padding: 50px;">
-                    <%--Header--%>
-                    <h1 class="title"><a href="<c:url value="/" />" style="text-decoration: none; color: yellow">GameVUI</a></h1>
-                    <p class="float-end">
-                        <c:if test="${account==null}">
-                            <a href="<c:url value="/login.jsp" />" style="color: white">Login |</a>
-                        </c:if>
-                        <c:if test="${account!=null}">
-                            <i style="color: white">Welcome ${account.name} |</i>
-                            <a href="<c:url value="/account/logout.do" />" style="color: white">Logout |</a>
-                        </c:if>
+                <div class="col-sm-12 header" style="background-color: #5561F5; padding: 20px;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="<c:url value="/" />">
+                                <img src="<c:url value="/images/logo.png" />" alt="Store Logo" width="400px"/>
+                            </a>
+                        </div>
 
-                        <a href="<c:url value="/cart/index.do" />" class="btn btn-outline-light text-light btn-sm p-1">
-                            <i class="bi bi-bag-dash"> Cart</i>
-                            ${cart.quantity}            
-                        </a>    
-                    </p>
+                        <!-- Login & Cart -->
+                        <div class="d-flex align-items-center ms-auto">
+                            <c:if test="${account == null}">
+                                <a href="<c:url value="/login.jsp" />" class="text-white me-3" style="text-decoration: none; font-size: 20px"><i class="bi bi-person-circle fs-3"></i> Login |</a>
+                            </c:if>
+                            <c:if test="${account != null}">
+                                <span class="text-white me-3" style="text-decoration: none; font-size: 20px">${account.name} |</span>
+                                <a href="<c:url value="/account/logout.do" />" class="text-white me-3" style="text-decoration: none; font-size: 20px">Logout |</a>
+                            </c:if>
+
+                            <!-- Cart -->
+                            <a href="<c:url value='/cart/index.do' />" class="btn btn-outline-light text-light btn-sm p-2">
+                                <i class="bi bi-bag-dash"> Cart</i>
+                                <span class="badge bg-light text-dark">${cart.quantity}</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+<!--        Body Content                -->
             </div>
             <div class="row">
                 <div class="col-sm-12">
@@ -48,8 +58,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 footer" style="padding-top: 20px">
-                    Copyright by FPT students
+                <div class="col-sm-12 footer" style="padding-top: 50px; background-color: #5561F5; color: white;">
+                    Project by group 4
                 </div>
             </div>
             <div class="messenger-logo">
