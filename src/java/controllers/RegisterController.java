@@ -5,25 +5,22 @@
  */
 package controllers;
 
-import db.Product;
-import db.ProductFacade;
+import db.Account;
+import db.AccountFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import utils.Config;
 
 /**
  *
  * @author Mr. Tuan
  */
-@WebServlet(name = "ProductController", urlPatterns = {"/product"})
-public class ProductController extends HttpServlet {
+@WebServlet(name = "RegisterController", urlPatterns = {"/register"})
+public class RegisterController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,56 +34,33 @@ public class ProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action = (String)request.getAttribute("action");
+        String action = request.getParameter("action");
         switch (action) {
-            case "index":
-                index(request, response);
+            case "create": 
+                create(request, response);
                 break;
         }
     }
-    
-    protected void index(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    try {
-        int pageSize = 6; // Number of products per page
-        HttpSession session = request.getSession();
-        Integer page = (Integer) session.getAttribute("page");
-        if (page == null) {
-            page = 1; // Default to the first page
-            session.setAttribute("page", page);
+
+    protected void create(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            String name = request.getParameter("name");
+            String phone = request.getParameter("phone");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            Account account = new Account();
+            account.setName(name);
+            account.setPhone(phone);
+            account.setEmail(email);
+            account.setPassword(password);
+            AccountFacade af = new AccountFacade();
+            af.create(account);
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        String pages = request.getParameter("page");
-        if (pages != null) {
-            page = Integer.parseInt(pages);
-            session.setAttribute("page", page);
-        }
-
-        String searchKeyword = request.getParameter("search");
-        String sortBy = request.getParameter("sortBy");
-
-        ProductFacade pf = new ProductFacade();
-        List<Product> list;
-
-        // Only search if a search keyword is provided
-        if (searchKeyword != null && !searchKeyword.isEmpty()) {
-            list = pf.search(searchKeyword, sortBy); // Search and sort
-        } else {
-            list = pf.select(pageSize, page); // Default selection without sorting
-        }
-
-        request.setAttribute("list", list);
-        int rowCount = pf.count(); // Get the total number of products
-        int totalPage = (int) Math.ceil(rowCount / (double) pageSize); // Calculate total pages
-        request.setAttribute("totalPage", totalPage);
-        request.setAttribute("search", searchKeyword); // Retain the search keyword
-        request.setAttribute("sortBy", sortBy); // Retain the sort option
-        request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-}
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
