@@ -22,7 +22,7 @@
             Email<br/>
             <input type="text" name="email" value="${param.email}"/><br/>
             Password<br/>
-            <input type="text" name="password" value="${param.password}"/><br/>
+            <input type="password" name="password" value="${param.password}"/><br/>
             <button type="submit" name="action" value="create">Create</button>
         </form>
     </body>
