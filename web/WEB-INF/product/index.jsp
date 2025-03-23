@@ -39,10 +39,11 @@
                 <fmt:formatNumber value="${product.cost}" type="currency"/><br/>
             </c:if> 
             <br/>    
-            <a href="<c:url value="/cart/add.do?id=${product.id}" />" class="btn btn-primary mt-3 mb-3"><i class="bi bi-bag-plus"></i> Add to Cart</a>    
-
-            <!--
-            Discount: ${product.discount}<br/>     -->
+            <div class="d-flex justify-content-center">
+                <a href="<c:url value="/cart/add.do?id=${product.id}" />" class="btn btn-primary mt-3 mb-3 w-100">
+                    <i class="bi bi-bag-plus"></i> Add to Cart
+                </a>
+            </div>   
         </div>              
     </c:forEach>
 </div>
