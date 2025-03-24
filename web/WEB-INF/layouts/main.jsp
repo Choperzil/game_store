@@ -59,7 +59,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 footer" style="padding-top: 50px; background-color: #5561F5; color: white;">
-                    Project by group 4
+                    Project by group 8
                 </div>
             </div>
             <div class="messenger-logo">

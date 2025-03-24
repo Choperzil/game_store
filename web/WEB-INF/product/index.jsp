@@ -33,10 +33,10 @@
             <img src="<c:url value="/images/${product.id}.jpg" />" width="100%" class="image">
             <b>${product.description}</b><br/>
             <c:if test="${product.discount!=0}">
-                <span class="text-secondary text-decoration-line-through"><fmt:formatNumber value="${product.cost}" type="currency"/></span> <fmt:formatNumber value="${product.cost}" type="currency"/> <span class="badge bg-danger text-white">-${product.discount * 100}%</span>
+                <span class="text-secondary text-decoration-line-through"><fmt:formatNumber value="${product.price}" type="currency"/></span> <fmt:formatNumber value="${product.cost}" type="currency"/> <span class="badge bg-danger text-white">-${product.discount * 100}%</span>
             </c:if>
             <c:if test="${product.discount==0}">
-                <fmt:formatNumber value="${product.cost}" type="currency"/><br/>
+                <fmt:formatNumber value="${product.price}" type="currency"/><br/>
             </c:if> 
             <br/>    
             <div class="d-flex justify-content-center">
